@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     @yield('title')
+    
     @yield('css')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -22,14 +27,14 @@
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="/admin" class="nav-link">Home</a>
+                <a href="{{ url('/admin') }}" class="nav-link">Home</a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
+            <!-- <li class="nav-item d-none d-sm-inline-block">
                 <a href="https://pp.beautylink.com.tw/" class="nav-link">測試機</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="https://www.pponline.com.tw/" class="nav-link">正式機</a>
-            </li>
+            </li> -->
         </ul>
 
         <!-- Right navbar links -->
@@ -152,9 +157,12 @@
                 </a>
             </li> -->
             <li class="nav-item">
-                <a class="nav-link" href="#" role="button"><!-- 補登出功能 -->
+                <a class="nav-link" href="{{ route('logout') }}" role="button" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </li>
         </ul>
     </nav>
@@ -172,11 +180,15 @@
         <div class="sidebar">
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
+                <!-- <div class="image">
                     <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-                </div>
+                </div> -->
                 <div class="info">
-                    <a href="/admin" class="d-block">Alexander Pierce</a>
+                    @guest
+                        <a href="/admin" class="d-block">訪客</a>
+                    @else
+                        <a href="/admin" class="d-block">{{ Auth::user()->name }}</a>
+                    @endguest
                 </div>
             </div>
 
@@ -197,93 +209,71 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="/admin" class="nav-link active">
+                    <a href="{{ url('/admin') }}" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
                         </p>
                     </a>
                 </li>
-                @if ($adminLogData)
-                    @foreach ($adminLogData as $v)
-                        @if ($v->a_l_l_seq == 2)
                         <li class="nav-header">台幣</li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <p>
-                                    {{$v->a_l_l_title}}
+                                    管理債權(全)
                                 </p>
                             </a>
-                        </li> 
-                        @endif
-
-                        @if ($v->a_l_l_seq == 3)
+                        </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
-                                    {{$v->a_l_l_title}}
+                                    標單專區(全)
                                 </p>
                             </a>
                         </li> 
-                        @endif
-
-                        @if ($v->a_l_l_seq == 5)
                         <li class="nav-header">會員</li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
-                                    {{$v->a_l_l_title}}
+                                    管理會員
                                 </p>
                             </a>
                         </li> 
-                        @endif
-
-                        @if ($v->a_l_l_seq == 6)
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user-md"></i>
                                 <p>
-                                    {{$v->a_l_l_title}}
+                                    管理員工
                                 </p>
                             </a>
                         </li> 
-                        @endif
-
-                        @if ($v->a_l_l_seq == 18)
                         <li class="nav-header">美元</li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-dollar-sign"></i>
                                 <p>
-                                    {{$v->a_l_l_title}}
+                                    美元專區
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                @isset ($adminLogArr[19])
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>管理債權(全)</p>
                                     </a>
                                 </li>
-                                @endisset
-                                @isset ($adminLogArr[20])
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>標單專區(全)</p>
                                     </a>
                                 </li>
-                                @endisset
                             </ul>
                         </li>
-                        @endif
-                    @endforeach
-                @endif
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

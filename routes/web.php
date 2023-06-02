@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,35 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+//Auth::routes();等同以下route:
+// Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+// Route::post('login', 'Auth\LoginController@login');
+// Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+// Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+// Route::post('register', 'Auth\RegisterController@register');
+// Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+// Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+// Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+// Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/admin', function () {
+    return view('Backend.home');
+});
+Route::get('/admin/login', function () {
+    return view('Backend.login');
+});
+Route::get('/admin/register', function () {
+    return view('Backend.register');
+});
+Route::get('/admin/password/reset', function () {
+    return view('Backend.passwords.email');
+});
+Route::get('/admin/password/reset', function () {
+    return view('Backend.passwords.email');
+});
+Route::get('/admin/password/reset/{token}', function () {
+    return view('Backend.passwords.reset');
+});
+
