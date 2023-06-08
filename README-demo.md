@@ -8,7 +8,7 @@
 
 ---
 
-### 開發流程(6/1-?)
+### 開發流程
 
 - 新增laravel專案 `composer create-project --prefer-dist laravel/laravel admin-cloud`
 - 修改.env檔案DB設定(DB,user,password)
@@ -16,8 +16,8 @@
 - 新增table `php artisan migrate`
 - 補安裝額外table `php artisan session:table`
 - 然後再新增一次 `php artisan migrate`
-- 安裝額外套件 `composer require laravel/ui`
-- 產生auth相關檔案 `php artisan ui bootstrap --auth`
+- 安裝額外UI套件 `composer require laravel/ui`
+- 產生auth及相關檔案 `php artisan ui bootstrap --auth`
 - `npm install`
 - `npm run dev`
 - 透過網頁註冊帳號
@@ -25,7 +25,14 @@
 - 製作AdminLTE共用模板
 - 替換原始認證功能為AdminLTE模板
 - 測試註冊及登入功能
-- 新增目錄表、權限表、管理目錄功能、管理權限功能
+- 帳號管理
+- 新增目錄表、權限表
+- 目錄管理
+- 權限管理
+- 品牌管理
+- 類別管理
+- 商品管理
+- 全功能測試及優化
 
 ---
 
@@ -38,13 +45,26 @@
 - 根據提示連到專案網站
 - 註冊帳號
 - 登入
-- 完成安裝
+- 開始使用
 
 ---
 
 ### 備註
 
-- 2023/5/26開始
+- 2023/6/1開始進行
+
+---
+
+### 待處理
+
+- 新增table的欄位加註解
+- model直接新增不可用
+- 未驗證輸入值
+- 表格欄位名稱改成中文
+- 把常用js,ajax setup移到模板
+- 錯誤返回要保留欄位輸入值
+- 有時間再來寫單元測試,功能測試
+- 改成多國語言版本
 
 ---
 

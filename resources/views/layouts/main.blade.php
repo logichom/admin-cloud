@@ -27,7 +27,7 @@
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="{{ url('/admin') }}" class="nav-link">Home</a>
+                <a href="{{ url('/home') }}" class="nav-link">Home</a>
             </li>
             <!-- <li class="nav-item d-none d-sm-inline-block">
                 <a href="https://pp.beautylink.com.tw/" class="nav-link">測試機</a>
@@ -64,86 +64,65 @@
             <!-- Messages Dropdown Menu -->
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-comments"></i>
-                <span class="badge badge-danger navbar-badge">3</span>
+                    <i class="far fa-comments"></i>
+                    <span class="badge badge-danger navbar-badge">2</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                    <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                    <div class="media-body">
-                        <h3 class="dropdown-item-title">
-                        Brad Diesel
-                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                        </h3>
-                        <p class="text-sm">Call me whenever you can...</p>
-                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                    </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                    <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                    <div class="media-body">
-                        <h3 class="dropdown-item-title">
-                        John Pierce
-                        <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                        </h3>
-                        <p class="text-sm">I got your message bro</p>
-                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                    </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                    <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                    <div class="media-body">
-                        <h3 class="dropdown-item-title">
-                        Nora Silvester
-                        <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                        </h3>
-                        <p class="text-sm">The subject goes here</p>
-                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                    </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                    <a href="#" class="dropdown-item">
+                        <!-- Message Start -->
+                        <div class="media">
+                        <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                        <div class="media-body">
+                            <h3 class="dropdown-item-title">
+                            Brad Diesel
+                            <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                            </h3>
+                            <p class="text-sm">Call me whenever you can...</p>
+                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                        </div>
+                        </div>
+                        <!-- Message End -->
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <!-- Message Start -->
+                        <div class="media">
+                        <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                        <div class="media-body">
+                            <h3 class="dropdown-item-title">
+                            John Pierce
+                            <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                            </h3>
+                            <p class="text-sm">I got your message bro</p>
+                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                        </div>
+                        </div>
+                        <!-- Message End -->
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                 </div>
             </li>
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-bell"></i>
-                <span class="badge badge-warning navbar-badge">15</span>
+                    <i class="far fa-bell"></i>
+                    <span class="badge badge-warning navbar-badge">2</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-envelope mr-2"></i> 4 new messages
-                    <span class="float-right text-muted text-sm">3 mins</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-users mr-2"></i> 8 friend requests
-                    <span class="float-right text-muted text-sm">12 hours</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-file mr-2"></i> 3 new reports
-                    <span class="float-right text-muted text-sm">2 days</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    <span class="dropdown-item dropdown-header">15 Notifications</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-envelope mr-2"></i> 4 new messages
+                        <span class="float-right text-muted text-sm">3 mins</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-users mr-2"></i> 8 friend requests
+                        <span class="float-right text-muted text-sm">12 hours</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
             </li>
             <!-- <li class="nav-item">
@@ -171,9 +150,9 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="/admin" class="brand-link">
+        <a href="/home" class="brand-link">
             <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">豬豬在線</span>
+            <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
         </a>
 
         <!-- Sidebar -->
@@ -185,10 +164,14 @@
                 </div> -->
                 <div class="info">
                     @guest
-                        <a href="/admin" class="d-block">訪客</a>
+                        <a href="/" class="d-block">訪客</a>
                     @else
-                        <a href="/admin" class="d-block">{{ Auth::user()->name }}</a>
+                        <a href="/home" class="d-block">{{ Auth::user()->name }}</a>
                     @endguest
+                    <!-- {{ url()->current() }} -->
+                    目前路徑:{{ request()->path() }} <!-- 測試用 -->
+                    <br>
+                    登入IP:{{ request()->ip() }} <!-- 測試用 -->
                 </div>
             </div>
 
@@ -209,71 +192,63 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ url('/admin') }}" class="nav-link active">
+                    <a href="{{ url('/home') }}" class="nav-link @if(request()->path() == '/' || request()->path() == 'home') active @endif">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
                         </p>
                     </a>
                 </li>
-                        <li class="nav-header">台幣</li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-table"></i>
-                                <p>
-                                    管理債權(全)
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    標單專區(全)
-                                </p>
-                            </a>
-                        </li> 
-                        <li class="nav-header">會員</li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>
-                                    管理會員
-                                </p>
-                            </a>
-                        </li> 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user-md"></i>
-                                <p>
-                                    管理員工
-                                </p>
-                            </a>
-                        </li> 
-                        <li class="nav-header">美元</li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-dollar-sign"></i>
-                                <p>
-                                    美元專區
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>管理債權(全)</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>標單專區(全)</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                <li class="nav-header">帳號</li>
+                <li class="nav-item">
+                    <a href="{{ route('account') }}" class="nav-link @if(request()->path() == 'account') active @endif">
+                        <i class="nav-icon fas fa-user-md"></i>
+                        <p>
+                            帳號管理
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('sidebar_menu') }}" class="nav-link @if(request()->path() == 'sidebar_menu' || request()->path() == 'sidebar_menu_create') active @endif">
+                        <i class="nav-icon fas fa-bars"></i>
+                        <p>
+                            目錄管理
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('permission') }}" class="nav-link @if(request()->path() == 'permission') active @endif">
+                        <i class="nav-icon fas fa-address-book"></i>
+                        <p>
+                            權限管理
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">商品</li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                            品牌管理
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>
+                            類別管理
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            商品管理
+                        </p>
+                    </a>
+                </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
