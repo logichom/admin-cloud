@@ -36,7 +36,7 @@
     <!-- Main content -->
     <section class="content">
       <!-- Default box -->
-      <form action="{{ route('permission_search') }}" method="post">
+      <form action="{{ route('sidebar_menu_search') }}" method="post">
       @csrf
       <div class="card">
         <div class="card-header">
@@ -143,7 +143,7 @@
                     @endforeach
                   @else
                     <tr>
-                      <td rowspan="8">查無資料</td>
+                      <td colspan="8">查無資料</td>
                     </tr>
                   @endif
                 </tbody>
@@ -152,7 +152,9 @@
             <!-- /.card-body -->
             <div class="card-footer clearfix">
               <!-- 超過每頁數量才會有分頁 -->
-              {{ $data->links() }}
+              @if ($data)
+                {{ $data->links() }}
+              @endif
             </div>
           </div>
         </div>
@@ -183,35 +185,40 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js') }}"></script>
 <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    function menu_edit(id) {
-        alert('開發中');
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
+  });
 
-    function menu_delete(id) {
-        if (window.confirm('確定要刪除此目錄?')) {
-            $.ajax({
-                type: "POST",
-                url: "/sidebar_menu_delete",
-                dataType: "json",
-                data: {
-                    'id': id,
-                },
-                success: function (data) {
-                    if (data.code == 200) {
-                        alert("刪除成功");
-                        location.reload();
-                    } else {
-                        alert(data.msg);
-                    }      
-                }
-            });
-        }
+  function menu_edit(id) {
+    if (!id) {
+      alert('參數錯誤');
+      return false;
     }
+    
+    location.href = '/sidebar_menu_update/' + id;
+  }
+
+  function menu_delete(id) {
+    if (window.confirm('確定要刪除此目錄?')) {
+      $.ajax({
+        type: "POST",
+        url: "/sidebar_menu_delete",
+        dataType: "json",
+        data: {
+          'id': id,
+        },
+        success: function (data) {
+          if (data.code == 200) {
+            alert("刪除成功");
+            location.reload();
+          } else {
+            alert(data.msg);
+          }      
+        }
+      });
+    }
+  }
 </script>
 @endsection

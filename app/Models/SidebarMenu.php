@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SidebarMenu extends Model
 {
     use HasFactory;
+
+    protected $table = 'sidebar_menu';
 }

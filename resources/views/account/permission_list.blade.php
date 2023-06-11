@@ -36,7 +36,7 @@
     <!-- Main content -->
     <section class="content">
       <!-- Default box -->
-      <form action="{{ route('sidebar_menu_search') }}" method="post">
+      <form action="{{ route('permission_search') }}" method="post">
       @csrf
       <div class="card">
         <div class="card-header">
@@ -125,7 +125,7 @@
                     @endforeach
                   @else
                     <tr>
-                      <td rowspan="6">查無資料</td>
+                      <td colspan="6">查無資料</td>
                     </tr>
                   @endif
                 </tbody>
@@ -134,7 +134,9 @@
             <!-- /.card-body -->
             <div class="card-footer clearfix">
               <!-- 超過每頁數量才會有分頁 -->
-              {{ $data->links() }}
+              @if ($data)
+                {{ $data->links() }}
+              @endif
             </div>
           </div>
         </div>
@@ -172,7 +174,12 @@
   });
 
   function permission_edit(id) {
-    alert('開發中');
+    if (!id) {
+      alert('參數錯誤');
+      return false;
+    }
+    
+    location.href = '/permission_update/' + id;
   }
 
   function permission_delete(id) {

@@ -108,7 +108,7 @@
                     @endforeach
                   @else
                     <tr>
-                      <td rowspan="6">查無資料</td>
+                      <td colspan="6">查無資料</td>
                     </tr>
                   @endif
                 </tbody>
@@ -117,7 +117,9 @@
             <!-- /.card-body -->
             <div class="card-footer clearfix">
               <!-- 超過每頁數量才會有分頁 -->
-              {{ $data->links() }}
+              @if ($data)
+                {{ $data->links() }}
+              @endif
             </div>
           </div>
         </div>

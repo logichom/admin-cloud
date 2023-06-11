@@ -42,9 +42,13 @@ Route::any('/sidebar_menu', [HomeController::class, 'sidebar_menu_search'])->nam
 Route::get('/sidebar_menu_create', [HomeController::class, 'sidebar_menu_create_index'])->name('sidebar_menu_create');
 Route::post('/sidebar_menu_create', [HomeController::class, 'sidebar_menu_create'])->name('sidebar_menu_create');
 Route::post('/sidebar_menu_delete', [HomeController::class, 'sidebar_menu_delete']);
+Route::get('/sidebar_menu_update/{id}', [HomeController::class, 'sidebar_menu_update_index']);
+Route::put('/sidebar_menu_update', [HomeController::class, 'sidebar_menu_update'])->name('sidebar_menu_update');
 
 Route::get('/permission', [HomeController::class, 'permission_list'])->name('permission');
 Route::any('/permission', [HomeController::class, 'permission_search'])->name('permission_search');
 Route::get('/permission_create', [HomeController::class, 'permission_create_index'])->name('permission_create');
 Route::post('/permission_create', [HomeController::class, 'permission_create'])->name('permission_create');
 Route::post('/permission_delete', [HomeController::class, 'permission_delete']);
+Route::get('/permission_update/{id}', [HomeController::class, 'permission_update_index']);
+Route::put('/permission_update', [HomeController::class, 'permission_update'])->name('permission_update');
