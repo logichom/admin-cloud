@@ -51,11 +51,11 @@
             <div class="card-body">
               <div class="form-group">
                 <label for="user_id">user_id</label>
-                <input type="text" id="user_id" name="user_id" class="form-control">
+                <input type="text" id="user_id" name="user_id" class="form-control" value="{{ old('user_id') }}">
               </div>
               <div class="form-group">
                 <label for="sidebar_menu_id">sidebar_menu_id</label>
-                <input type="text" id="sidebar_menu_id" name="sidebar_menu_id" class="form-control">
+                <input type="text" id="sidebar_menu_id" name="sidebar_menu_id" class="form-control" value="{{ old('sidebar_menu_id') }}">
               </div>
               @if ($errors->any())
                 <h4><font style="color: red">{{ $errors->first() }}</font></h4>
@@ -97,5 +97,5 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('dist/js/demo.js') }}"></script>
+<!-- <script src="{{ asset('dist/js/demo.js') }}"></script> -->
 @endsection

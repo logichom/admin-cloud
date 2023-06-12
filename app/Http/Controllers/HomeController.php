@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class HomeController extends Controller
 {
     public $perPage;
+
     /**
      * Create a new controller instance.
      *
@@ -59,22 +60,12 @@ class HomeController extends Controller
         $name = $request->name;
         $email = $request->email;
 
-        // $query = DB::table('users');
-        // if (!empty(trim($name))) {
-        //     $query->where('name', $name);
-        // }
-        // if (!empty(trim($email))) {
-        //     $query->where('email', 'LIKE', '%' . $email . '%');
-        // }
-        // $data = $query->paginate($this->perPage);
-        // $total = $query->count();
-
         $where = [];
         if (!empty(trim($name))) {
             $where[] = ['name', $name];
         }
         if (!empty(trim($email))) {
-            $where[] = ['email', 'LIKE', '%' . $email . '%'];
+            $where[] = ['email', 'LIKE', "%{$email}%"];
         }
         $data = User::where($where)->paginate($this->perPage);
         $total = $data->count();
@@ -111,15 +102,14 @@ class HomeController extends Controller
         $title = $request->title;
         $categoryName = $request->category_name;
 
-        //待改成ORM...
         $userList = [];
         if (!empty(trim($name)) || !empty(trim($email))) {
-            $query = DB::table('users');
+            $query = User::query();
             if (!empty(trim($name))) {
                 $query->where('name', $name);
             }
             if (!empty(trim($email))) {
-                $query->where('email', 'LIKE', '%' . $email . '%');
+                $query->where('email', 'LIKE', "%{$email}%");
             }
             $dataUser = $query->get();
 
@@ -130,44 +120,20 @@ class HomeController extends Controller
             }
         }
 
-        $query = DB::table('sidebar_menu');
+        // DB::enableQueryLog();
+        $query = SidebarMenu::query();
         if ($userList) {
             $query->whereIn('created_by_user_id', $userList);
         }
         if (!empty(trim($title))) {
-            $query->where('title', 'LIKE', '%' . $title . '%');
+            $query->where('title', 'LIKE', "%{$title}%");
         }
         if (!empty(trim($categoryName))) {
-            $query->where('category_name', 'LIKE', '%' . $categoryName . '%');
+            $query->where('category_name', 'LIKE', "%{$categoryName}%");
         }
         $data = $query->paginate($this->perPage);
         $total = $query->count();
-
-        //wherein有問題...
-        // DB::enableQueryLog();
-        // $whereIn = [];
-        // $where = [];
-        // if ($userList) {
-        //     $whereIn = ['created_by_user_id', $userList];
-        // }
-        // if (!empty(trim($title))) {
-        //     $where[] = ['title', 'LIKE', '%' . $title . '%'];
-        // }
-        // if (!empty(trim($categoryName))) {
-        //     $where[] = ['category_name', 'LIKE', '%' . $categoryName . '%'];
-        // }
-        // if ($whereIn && $where) {
-        //     dd($where, $whereIn);
-        //     $data = SidebarMenu::whereIn($whereIn)->where($where)->paginate($this->perPage);
-        // } elseif (!$whereIn && $where) {
-        //     $data = SidebarMenu::whereIn($whereIn)->paginate($this->perPage);
-        // } elseif (!$whereIn && $where) {
-        //     $data = SidebarMenu::where($where)->paginate($this->perPage);
-        // } else {
-        //     $data = SidebarMenu::paginate($this->perPage);
-        // }
         // var_dump(DB::getQueryLog());
-        // $total = $data->count();
 
         return view('account.sidebar_menu_list', compact(['data', 'total']));
     }
@@ -179,24 +145,16 @@ class HomeController extends Controller
 
     public function sidebar_menu_create(Request $request)
     {
-        if (empty($request->title)) {
-            return redirect()->back()->withErrors(['msg' => '請輸入目錄名稱']); 
+        $inputData = $request->all();
+        $rules = [
+            'title' => 'required|string',
+            'category_name' => 'required|string',
+            'seq' => 'required|integer',
+        ];
+        $validator = Validator::make($inputData, $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput(); 
         }
-        if (empty($request->category_name)) {
-            return redirect()->back()->withErrors(['msg' => '請輸入目錄類別名稱']); 
-        }
-        if (empty($request->seq)) {
-            return redirect()->back()->withErrors(['msg' => '請輸入排序']); 
-        }
-
-        // $id = DB::table('sidebar_menu')->insertGetId([
-        //     'title' => $request->title,
-        //     'category_name' => $request->category_name,
-        //     'seq' => $request->seq,
-        //     'created_by_user_id' => Auth::user()->id,
-        //     'created_at' => date('Y-m-d H:i:s'),
-        //     'updated_at' => date('Y-m-d H:i:s'),
-        // ]);
 
         $query = new SidebarMenu();
         $query->title = $request->title;
@@ -220,21 +178,15 @@ class HomeController extends Controller
             'code' => 400,
             'msg' => '輸入資訊有誤',
         ];
-        if (!isset($request->id) || !$request->id) {
+
+        $inputData = $request->all();
+        $rules = [
+            'id' => 'required|integer',
+        ];
+        $validator = Validator::make($inputData, $rules);
+        if ($validator->fails()) {
             return response()->json($output);
         }
-
-        // $data = DB::table('sidebar_menu')->where('id', $request->id)->get();
-        // if (!$data || !$data[0]->id) {
-        //     $output['msg'] = '該筆資料不存在';
-        //     return response()->json($output);
-        // }
-        // $check = DB::table('sidebar_menu')->where('id', $request->id)->delete();
-        // if ($check) {
-        //     $output['code'] = 200;
-        //     $output['msg'] = '刪除成功';
-        //     return response()->json($output);
-        // }
 
         $query = SidebarMenu::find($request->id);
         if (!$query) {
@@ -255,23 +207,23 @@ class HomeController extends Controller
 
     public function sidebar_menu_update_index($id)
     {
+        $id = (int) $id ?? 0;
         $data = SidebarMenu::find($id);
         return view('account.sidebar_menu_edit', compact(['data']));
     }
 
     public function sidebar_menu_update(Request $request)
     {
-        if (empty($request->title)) {
-            return redirect()->back()->withErrors(['msg' => '請輸入目錄名稱']);
-        }
-        if (empty($request->category_name)) {
-            return redirect()->back()->withErrors(['msg' => '請輸入目錄類別名稱']);
-        }
-        if (empty($request->seq)) {
-            return redirect()->back()->withErrors(['msg' => '請輸入排序']);
-        }
-        if (!isset($request['id']) || !$request->id) {
-            return redirect()->back()->withErrors(['msg' => '參數錯誤']);
+        $inputData = $request->all();
+        $rules = [
+            'title' => 'required|string',
+            'category_name' => 'required|string',
+            'seq' => 'required|integer',
+            'id' => 'required|integer',
+        ];
+        $validator = Validator::make($inputData, $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput(); 
         }
 
         $query = SidebarMenu::find($request->id);
@@ -300,17 +252,29 @@ class HomeController extends Controller
 
     public function permission_search(Request $request)
     {
+        $inputData = $request->all();
+        $rules = [
+            'name' => 'nullable|string|between:2,100',
+            'email' => 'nullable|string|max:100',
+        ];
+        $validator = Validator::make($inputData, $rules);
+        if ($validator->fails()) {
+            $data = [];
+            $total = 0;
+            return view('account.permission_list', compact(['data', 'total']));
+        }
+
         $name = $request->name;
         $email = $request->email;
 
         $userList = [];
         if (!empty(trim($name)) || !empty(trim($email))) {
-            $query = DB::table('users');
+            $query = User::query();
             if (!empty(trim($name))) {
                 $query->where('name', $name);
             }
             if (!empty(trim($email))) {
-                $query->where('email', 'LIKE', '%' . $email . '%');
+                $query->where('email', 'LIKE', "%{$email}%");
             }
             $dataUser = $query->get();
 
@@ -321,8 +285,7 @@ class HomeController extends Controller
             }
         }
 
-        //待改成ORM...
-        $query = DB::table('users_permission');
+        $query = UserPermission::query();
         if ($userList) {
             $query->whereIn('user_id', $userList);
         }
@@ -339,11 +302,14 @@ class HomeController extends Controller
 
     public function permission_create(Request $request)
     {
-        if (empty($request->user_id)) {
-            return redirect()->back()->withErrors(['msg' => '請輸入管理者編號']); 
-        }
-        if (empty($request->sidebar_menu_id)) {
-            return redirect()->back()->withErrors(['msg' => '請輸入目錄編號']); 
+        $inputData = $request->all();
+        $rules = [
+            'user_id' => 'required|integer',
+            'sidebar_menu_id' => 'required|integer',
+        ];
+        $validator = Validator::make($inputData, $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput(); 
         }
 
         $query = new UserPermission();
@@ -366,7 +332,13 @@ class HomeController extends Controller
             'code' => 400,
             'msg' => '輸入資訊有誤',
         ];
-        if (!isset($request->id) || !$request->id) {
+
+        $inputData = $request->all();
+        $rules = [
+            'id' => 'required|integer',
+        ];
+        $validator = Validator::make($inputData, $rules);
+        if ($validator->fails()) {
             return response()->json($output);
         }
 
@@ -389,20 +361,22 @@ class HomeController extends Controller
 
     public function permission_update_index($id)
     {
+        $id = (int) $id ?? 0;
         $data = UserPermission::find($id);
         return view('account.permission_edit', compact(['data']));
     }
 
     public function permission_update(Request $request)
     {
-        if (empty($request->user_id)) {
-            return redirect()->back()->withErrors(['msg' => '請輸入管理者編號']); 
-        }
-        if (empty($request->sidebar_menu_id)) {
-            return redirect()->back()->withErrors(['msg' => '請輸入目錄編號']); 
-        }
-        if (!isset($request['id']) || !$request->id) {
-            return redirect()->back()->withErrors(['msg' => '參數錯誤']);
+        $inputData = $request->all();
+        $rules = [
+            'user_id' => 'required|integer',
+            'sidebar_menu_id' => 'required|integer',
+            'id' => 'required|integer',
+        ];
+        $validator = Validator::make($inputData, $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput(); 
         }
 
         $query = UserPermission::find($request->id);

@@ -51,15 +51,15 @@
             <div class="card-body">
               <div class="form-group">
                 <label for="title">名稱</label>
-                <input type="text" id="title" name="title" class="form-control">
+                <input type="text" id="title" name="title" class="form-control" value="{{ old('title') }}">
               </div>
               <div class="form-group">
                 <label for="category_name">類別名稱</label>
-                <input type="text" id="category_name" name="category_name" class="form-control">
+                <input type="text" id="category_name" name="category_name" class="form-control" value="{{ old('category_name') }}">
               </div>
               <div class="form-group">
                 <label for="seq">排序</label>
-                <input type="text" id="seq" name="seq" class="form-control">
+                <input type="text" id="seq" name="seq" class="form-control" value="{{ old('seq') }}">
               </div>
               @if ($errors->any())
                 <h4><font style="color: red">{{ $errors->first() }}</font></h4>
@@ -101,5 +101,5 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('dist/js/demo.js') }}"></script>
+<!-- <script src="{{ asset('dist/js/demo.js') }}"></script> -->
 @endsection
