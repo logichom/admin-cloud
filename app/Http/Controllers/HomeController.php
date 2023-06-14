@@ -171,7 +171,14 @@ class HomeController extends Controller
             return redirect()->back()->withErrors($validator)->withInput(); 
         }
 
-        //待加入排除重複...
+        //排除重複(可用->first()/count()/exists())
+        $check = SidebarMenu::where('title', $request->title)
+            ->where('category_name', $request->category_name)
+            ->where('seq', $request->seq)
+            ->count();
+        if ($check) {
+            return redirect()->back()->withErrors("目錄已存在");
+        }
 
         $query = new SidebarMenu();
         $query->title = $request->title;
@@ -364,7 +371,13 @@ class HomeController extends Controller
             return redirect()->back()->withErrors($validator)->withInput(); 
         }
 
-        //待加入排除重複...
+        //排除重複(可用->first()/count()/exists())
+        $check = UserPermission::where('user_id', $request->user_id)
+            ->where('sidebar_menu_id', $request->sidebar_menu_id)
+            ->count();
+        if ($check) {
+            return redirect()->back()->withErrors("權限已設定");
+        }
 
         $query = new UserPermission();
         $query->user_id = $request->user_id;
