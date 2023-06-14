@@ -11,6 +11,8 @@
 <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
 <!-- Theme style -->
 <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}">
 @endsection
 
 @section('content')
@@ -184,6 +186,8 @@
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <!-- <script src="{{ asset('dist/js/demo.js') }}"></script> -->
+<!-- SweetAlert2 -->
+<script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
   $.ajaxSetup({
     headers: {
@@ -193,7 +197,11 @@
 
   function menu_edit(id) {
     if (!id) {
-      alert('參數錯誤');
+      Swal.fire({
+        icon: 'warning',
+        title: '錯誤訊息',
+        text: '參數錯誤!'
+      });
       return false;
     }
     
@@ -201,24 +209,36 @@
   }
 
   function menu_delete(id) {
-    if (window.confirm('確定要刪除此目錄?')) {
-      $.ajax({
-        type: "POST",
-        url: "/sidebar_menu_delete",
-        dataType: "json",
-        data: {
-          'id': id,
-        },
-        success: function (data) {
-          if (data.code == 200) {
-            alert("刪除成功");
-            location.reload();
-          } else {
-            alert(data.msg);
-          }      
-        }
-      });
-    }
+    Swal.fire({
+      title: '確定要刪除此目錄?',
+      text: "(此動作無法復原)",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: '確定',
+      cancelButtonColor: '#d33',
+      cancelButtonText: '取消'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          type: "POST",
+          url: "/sidebar_menu_delete",
+          dataType: "json",
+          data: {
+            'id': id,
+          },
+          success: function (data) {
+            if (data.code == 200) {
+              Swal.fire(data.msg, '', "success").then(function () {
+                location.reload();
+              });
+            } else {
+              Swal.fire(data.msg, '', "error");
+            }      
+          }
+        });
+      }
+    });
   }
 </script>
 @endsection
