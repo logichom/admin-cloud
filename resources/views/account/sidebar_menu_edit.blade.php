@@ -42,7 +42,7 @@
         <div class="col-12">
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">General</h3>
+              <!-- <h3 class="card-title">General</h3> -->
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>
@@ -60,7 +60,7 @@
               </div>
               <div class="form-group">
                 <label for="seq">排序</label>
-                <input type="text" id="seq" name="seq" class="form-control" value="{{ $data->seq }}">
+                <input type="number" id="seq" name="seq" class="form-control" value="{{ $data->seq }}">
               </div>
               @if ($errors->any())
                 <h4><font style="color: red">{{ $errors->first() }}</font></h4>

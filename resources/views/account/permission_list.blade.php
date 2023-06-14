@@ -54,7 +54,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="name">名稱</label>
+                <label for="name">帳號名稱</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="請輸入名稱" value="{{ request()->name }}">
               </div>
             </div>
@@ -100,11 +100,11 @@
               <table class="table table-bordered table-hover text-nowrap">
                 <thead>
                   <tr>
-                    <th style="width: 10px">id</th>
-                    <th>user_id</th>
-                    <th>sidebar_menu_id</th>
-                    <th>created_at</th>
-                    <th>updated_at</th>
+                    <th style="width: 10px">流水號</th>
+                    <th>帳號名稱</th>
+                    <th>目錄名稱</th>
+                    <th>建立時間</th>
+                    <th>更新時間</th>
                     <th>功能</th>
                   </tr>
                 </thead>
@@ -113,8 +113,8 @@
                     @foreach ($data as $row)
                       <tr>
                         <td>{{ $row->id }}</td>
-                        <td>{{ $row->user_id }}</td>
-                        <td>{{ $row->sidebar_menu_id }}</td>
+                        <td>{{ $userArr[$row->user_id] ?? $row->user_id }}</td>
+                        <td>{{ $menuArr[$row->sidebar_menu_id] ?? $row->sidebar_menu_id }}</td>
                         <td>{{ $row->created_at }}</td>
                         <td>{{ $row->updated_at }}</td>
                         <td>

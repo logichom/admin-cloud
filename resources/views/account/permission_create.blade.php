@@ -41,7 +41,7 @@
         <div class="col-12">
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">General</h3>
+              <!-- <h3 class="card-title">General</h3> -->
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>
@@ -50,12 +50,24 @@
             </div>
             <div class="card-body">
               <div class="form-group">
-                <label for="user_id">user_id</label>
-                <input type="text" id="user_id" name="user_id" class="form-control" value="{{ old('user_id') }}">
+                <label for="user_id">帳號</label>
+                @if ($dataUser)
+                  <select class="form-control" id="user_id" name="user_id">
+                    @foreach ($dataUser as $row)
+                    <option value="{{ $row->id }}" @if (old('user_id') == $row->id) selected @endif>{{ $row->name }}</option>
+                    @endforeach
+                  </select>
+                @endif
               </div>
               <div class="form-group">
-                <label for="sidebar_menu_id">sidebar_menu_id</label>
-                <input type="text" id="sidebar_menu_id" name="sidebar_menu_id" class="form-control" value="{{ old('sidebar_menu_id') }}">
+                <label for="sidebar_menu_id">目錄</label>
+                @if ($dataSidebarMenu)
+                  <select class="form-control" id="sidebar_menu_id" name="sidebar_menu_id">
+                    @foreach ($dataSidebarMenu as $row)
+                    <option value="{{ $row->id }}" @if (old('sidebar_menu_id') == $row->id) selected @endif>{{ $row->title }}</option>
+                    @endforeach
+                  </select>
+                @endif
               </div>
               @if ($errors->any())
                 <h4><font style="color: red">{{ $errors->first() }}</font></h4>

@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\UserPermission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
@@ -78,7 +77,15 @@ class HomeController extends Controller
         $data = SidebarMenu::paginate($this->perPage);
         $total = $data->count();
 
-        return view('account.sidebar_menu_list', compact(['data', 'total']));
+        $userArr = [];
+        $dataUser = User::select('id', 'name')->get();
+        if ($dataUser) {
+            foreach ($dataUser as $row) {
+                $userArr[$row->id] = $row->name;
+            }
+        }
+
+        return view('account.sidebar_menu_list', compact(['data', 'total', 'userArr']));
     }
 
     public function sidebar_menu_search(Request $request)
@@ -135,7 +142,15 @@ class HomeController extends Controller
         $total = $query->count();
         // var_dump(DB::getQueryLog());
 
-        return view('account.sidebar_menu_list', compact(['data', 'total']));
+        $userArr = [];
+        $dataUser = User::select('id', 'name')->get();
+        if ($dataUser) {
+            foreach ($dataUser as $row) {
+                $userArr[$row->id] = $row->name;
+            }
+        }
+
+        return view('account.sidebar_menu_list', compact(['data', 'total', 'userArr']));
     }
 
     public function sidebar_menu_create_index()
@@ -155,6 +170,8 @@ class HomeController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput(); 
         }
+
+        //待加入排除重複...
 
         $query = new SidebarMenu();
         $query->title = $request->title;
@@ -247,7 +264,23 @@ class HomeController extends Controller
         $data = UserPermission::paginate($this->perPage);
         $total = $data->count();
 
-        return view('account.permission_list', compact(['data', 'total']));
+        $userArr = [];
+        $dataUser = User::select('id', 'name')->get();
+        if ($dataUser) {
+            foreach ($dataUser as $row) {
+                $userArr[$row->id] = $row->name;
+            }
+        }
+
+        $menuArr = [];
+        $dataSidebarMenu = SidebarMenu::select('id', 'title')->get();
+        if ($dataSidebarMenu) {
+            foreach ($dataSidebarMenu as $row) {
+                $menuArr[$row->id] = $row->title;
+            }
+        }
+
+        return view('account.permission_list', compact(['data', 'total', 'userArr', 'menuArr']));
     }
 
     public function permission_search(Request $request)
@@ -292,12 +325,31 @@ class HomeController extends Controller
         $data = $query->paginate($this->perPage);
         $total = $query->count();
 
-        return view('account.permission_list', compact(['data', 'total']));
+        $userArr = [];
+        $dataUser = User::select('id', 'name')->get();
+        if ($dataUser) {
+            foreach ($dataUser as $row) {
+                $userArr[$row->id] = $row->name;
+            }
+        }
+
+        $menuArr = [];
+        $dataSidebarMenu = SidebarMenu::select('id', 'title')->get();
+        if ($dataSidebarMenu) {
+            foreach ($dataSidebarMenu as $row) {
+                $menuArr[$row->id] = $row->title;
+            }
+        }
+
+        return view('account.permission_list', compact(['data', 'total', 'userArr', 'menuArr']));
     }
 
     public function permission_create_index()
     {
-        return view('account.permission_create');
+        $dataUser = User::select('id', 'name')->get();
+        $dataSidebarMenu = SidebarMenu::select('id', 'title')->get();
+        
+        return view('account.permission_create', compact(['dataUser', 'dataSidebarMenu']));
     }
 
     public function permission_create(Request $request)
@@ -311,6 +363,8 @@ class HomeController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput(); 
         }
+
+        //待加入排除重複...
 
         $query = new UserPermission();
         $query->user_id = $request->user_id;

@@ -42,7 +42,7 @@
         <div class="col-12">
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">General</h3>
+              <!-- <h3 class="card-title">General</h3> -->
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>
@@ -51,11 +51,11 @@
             </div>
             <div class="card-body">
               <div class="form-group">
-                <label for="user_id">user_id</label>
+                <label for="user_id">帳號</label>
                 <input type="text" id="user_id" name="user_id" class="form-control" value="{{ $data->user_id }}">
               </div>
               <div class="form-group">
-                <label for="sidebar_menu_id">sidebar_menu_id</label>
+                <label for="sidebar_menu_id">目錄</label>
                 <input type="text" id="sidebar_menu_id" name="sidebar_menu_id" class="form-control" value="{{ $data->sidebar_menu_id }}">
               </div>
               @if ($errors->any())

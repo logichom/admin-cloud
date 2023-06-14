@@ -61,21 +61,21 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="email">新增者email</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="請輸入帳號" value="{{ request()->email }}">
+                <input type="text" class="form-control" id="email" name="email" placeholder="請輸入email" value="{{ request()->email }}">
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="title">title</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="請輸入title" value="{{ request()->title }}">
+                <label for="title">目錄名稱</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="請輸入目錄名稱" value="{{ request()->title }}">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="category_name">category_name</label>
-                <input type="text" class="form-control" id="category_name" name="category_name" placeholder="請輸入類別" value="{{ request()->category_name }}">
+                <label for="category_name">目錄分類</label>
+                <input type="text" class="form-control" id="category_name" name="category_name" placeholder="請輸入分類" value="{{ request()->category_name }}">
               </div>
             </div>
           </div>
@@ -114,13 +114,13 @@
               <table class="table table-bordered table-hover text-nowrap">
                 <thead>
                   <tr>
-                    <th style="width: 10px">id</th>
-                    <th>title</th>
-                    <th>category_name</th>
-                    <th>seq</th>
-                    <th>created_by_user_id</th>
-                    <th>created_at</th>
-                    <th>updated_at</th>
+                    <th style="width: 10px">流水號</th>
+                    <th>目錄名稱</th>
+                    <th>目錄分類</th>
+                    <th>排序</th>
+                    <th>新增者名稱</th>
+                    <th>建立時間</th>
+                    <th>更新時間</th>
                     <th>功能</th>
                   </tr>
                 </thead>
@@ -132,7 +132,7 @@
                         <td>{{ $row->title }}</td>
                         <td>{{ $row->category_name }}</td>
                         <td>{{ $row->seq }}</td>
-                        <td>{{ $row->created_by_user_id }}</td>
+                        <td>{{ $userArr[$row->created_by_user_id] ?? $row->created_by_user_id }}</td>
                         <td>{{ $row->created_at }}</td>
                         <td>{{ $row->updated_at }}</td>
                         <td>
