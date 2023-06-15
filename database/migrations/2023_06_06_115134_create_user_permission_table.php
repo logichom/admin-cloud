@@ -14,9 +14,9 @@ class CreateUserPermissionTable extends Migration
     public function up()
     {
         Schema::create('users_permission', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_id');
-            $table->integer('sidebar_menu_id');
+            $table->id()->comment('流水號');
+            $table->integer('user_id')->comment('會員編號');
+            $table->integer('sidebar_menu_id')->comment('目錄編號');
             $table->timestamps();
         });
     }
