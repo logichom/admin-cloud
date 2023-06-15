@@ -172,12 +172,11 @@ class HomeController extends Controller
         }
 
         //排除重複(可用->first()/count()/exists())
-        $check = SidebarMenu::where('title', $request->title)
-            ->where('category_name', $request->category_name)
-            ->where('seq', $request->seq)
+        $check = SidebarMenu::orWhere('title', $request->title)
+            ->orWhere('seq', $request->seq)
             ->count();
         if ($check) {
-            return redirect()->back()->withErrors("目錄已存在");
+            return redirect()->back()->withErrors("目錄已存在或排序已使用");
         }
 
         $query = new SidebarMenu();
