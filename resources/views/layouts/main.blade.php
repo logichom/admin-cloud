@@ -226,7 +226,7 @@
                 </li>
                 <li class="nav-header">商品</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('brand') }}" class="nav-link @if(strpos(request()->path(), 'brand') !== false) active @endif">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
                             品牌管理
