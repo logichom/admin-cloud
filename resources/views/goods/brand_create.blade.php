@@ -50,6 +50,15 @@
             </div>
             <div class="card-body">
               <div class="form-group">
+                <label for="category_id">類別</label>
+                <select class="form-control" id="category_id" name="category_id">
+                  <option value="-1">請選擇</option>
+                  @foreach ($dataCategory as $row)
+                  <option value="{{ $row->id }}" @if (old('category_id') == $row->id) selected @endif>{{ $row->category_name }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="form-group">
                 <label for="brand_name">品牌名稱</label>
                 <input type="text" id="brand_name" name="brand_name" class="form-control" value="{{ old('brand_name') }}">
               </div>

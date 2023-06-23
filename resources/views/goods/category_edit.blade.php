@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-<title>{{ config('app.name', 'Laravel') }} | 品牌管理</title>
+<title>{{ config('app.name', 'Laravel') }} | 類別管理</title>
 @endsection
 
 @section('css')
@@ -21,12 +21,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>修改品牌</h1>
+            <h1>修改類別</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-              <li class="breadcrumb-item active">修改品牌</li>
+              <li class="breadcrumb-item active">修改類別</li>
             </ol>
           </div>
         </div>
@@ -35,7 +35,7 @@
 
     <!-- Main content -->
     <section class="content">
-      <form action="{{ route('brand_update') }}" method="post">
+      <form action="{{ route('category_update') }}" method="post">
       @csrf
       @method('PUT')
       <div class="row">
@@ -51,17 +51,8 @@
             </div>
             <div class="card-body">
               <div class="form-group">
-                <label for="category_id">類別</label>
-                <select class="form-control" id="category_id" name="category_id">
-                  <option value="-1">請選擇</option>
-                  @foreach ($dataCategory as $row)
-                  <option value="{{ $row->id }}" @if ($data->category_id == $row->id) selected @endif>{{ $row->category_name }}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="brand_name">品牌名稱</label>
-                <input type="text" id="brand_name" name="brand_name" class="form-control" value="{{ $data->brand_name }}">
+                <label for="category_name">類別名稱</label>
+                <input type="text" id="category_name" name="category_name" class="form-control" value="{{ $data->category_name }}">
               </div>
               <div class="form-group">
               <label for="is_show">是否顯示</label>
@@ -83,7 +74,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <a href="{{ route('brand') }}" class="btn btn-secondary">取消</a>
+          <a href="{{ route('category') }}" class="btn btn-secondary">取消</a>
           <input type="submit" value="修改" class="btn btn-success float-right">
         </div>
       </div>

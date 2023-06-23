@@ -232,6 +232,7 @@ class HomeController extends Controller
     {
         $id = (int) $id ?? 0;
         $data = SidebarMenu::find($id);
+
         return view('account.sidebar_menu_edit', compact(['data']));
     }
 
@@ -429,6 +430,7 @@ class HomeController extends Controller
     {
         $id = (int) $id ?? 0;
         $data = UserPermission::find($id);
+        
         return view('account.permission_edit', compact(['data']));
     }
 

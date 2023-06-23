@@ -226,18 +226,18 @@
                 </li>
                 <li class="nav-header">商品</li>
                 <li class="nav-item">
-                    <a href="{{ route('brand') }}" class="nav-link @if(strpos(request()->path(), 'brand') !== false) active @endif">
-                        <i class="nav-icon fas fa-table"></i>
+                    <a href="{{ route('category') }}" class="nav-link @if(strpos(request()->path(), 'category') !== false) active @endif">
+                        <i class="nav-icon fas fa-list"></i>
                         <p>
-                            品牌管理
+                            類別管理
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-list"></i>
+                    <a href="{{ route('brand') }}" class="nav-link @if(strpos(request()->path(), 'brand') !== false) active @endif">
+                        <i class="nav-icon fas fa-table"></i>
                         <p>
-                            類別管理
+                            品牌管理
                         </p>
                     </a>
                 </li>

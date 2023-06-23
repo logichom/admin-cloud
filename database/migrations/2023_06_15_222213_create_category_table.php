@@ -15,7 +15,6 @@ class CreateCategoryTable extends Migration
     {
         Schema::create('category', function (Blueprint $table) {
             $table->id()->comment('流水號');
-            $table->integer('brand_id')->comment('品牌編號');
             $table->string('category_name')->comment('類別名稱');
             $table->tinyInteger('is_show')->default(0)->comment('是否顯示');
             $table->timestamps();

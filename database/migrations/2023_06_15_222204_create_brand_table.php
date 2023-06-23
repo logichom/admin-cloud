@@ -15,6 +15,7 @@ class CreateBrandTable extends Migration
     {
         Schema::create('brand', function (Blueprint $table) {
             $table->id()->comment('流水號');
+            $table->integer('category_id')->comment('類別編號');
             $table->string('brand_name')->comment('品牌名稱');
             $table->tinyInteger('is_show')->default(0)->comment('是否顯示');
             $table->timestamps();

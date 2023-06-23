@@ -54,6 +54,14 @@ Route::post('/permission_delete', [HomeController::class, 'permission_delete']);
 Route::get('/permission_update/{id}', [HomeController::class, 'permission_update_index']);
 Route::put('/permission_update', [HomeController::class, 'permission_update'])->name('permission_update');
 
+Route::get('/category', [AdminController::class, 'category_list'])->name('category');
+Route::any('/category', [AdminController::class, 'category_search'])->name('category_search');
+Route::get('/category_create', [AdminController::class, 'category_create_index'])->name('category_create');
+Route::post('/category_create', [AdminController::class, 'category_create'])->name('category_create');
+Route::post('/category_delete', [AdminController::class, 'category_delete']);
+Route::get('/category_update/{id}', [AdminController::class, 'category_update_index']);
+Route::put('/category_update', [AdminController::class, 'category_update'])->name('category_update');
+
 Route::get('/brand', [AdminController::class, 'brand_list'])->name('brand');
 Route::any('/brand', [AdminController::class, 'brand_search'])->name('brand_search');
 Route::get('/brand_create', [AdminController::class, 'brand_create_index'])->name('brand_create');

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-<title>{{ config('app.name', 'Laravel') }} | 品牌管理</title>
+<title>{{ config('app.name', 'Laravel') }} | 類別管理</title>
 @endsection
 
 @section('css')
@@ -23,12 +23,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>品牌管理</h1>
+            <h1>類別管理</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-              <li class="breadcrumb-item active">品牌管理</li>
+              <li class="breadcrumb-item active">類別管理</li>
             </ol>
           </div>
         </div>
@@ -38,7 +38,7 @@
     <!-- Main content -->
     <section class="content">
       <!-- Default box -->
-      <form action="{{ route('brand_search') }}" method="post">
+      <form action="{{ route('category_search') }}" method="post">
       @csrf
       <div class="card">
         <div class="card-header">
@@ -56,22 +56,11 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="brand_name">品牌名稱</label>
-                <input type="text" class="form-control" id="brand_name" name="brand_name" placeholder="請輸入名稱" value="{{ request()->brand_name }}">
+                <label for="category_name">類別名稱</label>
+                <input type="text" class="form-control" id="category_name" name="category_name" placeholder="請輸入名稱" value="{{ request()->category_name }}">
               </div>
             </div>
             <div class="col-md-6">
-              <div class="form-group">
-                <label for="category_id">類別</label>
-                @if ($categoryArr)
-                <select class="form-control" id="category_id" name="category_id">
-                  <option value="-1">請選擇</option>
-                  @foreach ($categoryArr as $id => $name)
-                  <option value="{{ $id }}" @if (old('category_id') == $id) selected @endif>{{ $name }}</option>
-                  @endforeach
-                </select>
-                @endif
-              </div>
             </div>
           </div>
         </div>
@@ -94,7 +83,7 @@
           </div>
         </div>
         <div class="card-footer">
-          <button type="button" class="btn btn-primary" onclick="window.location='{{ route("brand_create") }}'">新增</button>
+          <button type="button" class="btn btn-primary" onclick="window.location='{{ route("category_create") }}'">新增</button>
         </div>
       </div>
 
@@ -110,8 +99,7 @@
                 <thead>
                   <tr>
                     <th style="width: 10px">流水號</th>
-                    <th>類別</th>
-                    <th>品牌名稱</th>
+                    <th>類別名稱</th>
                     <th>是否顯示</th>
                     <th>建立時間</th>
                     <th>更新時間</th>
@@ -123,14 +111,13 @@
                     @foreach ($data as $row)
                       <tr>
                         <td>{{ $row->id }}</td>
-                        <td>{{ $categoryArr[$row->category_id] ?? $row->category_id }}</td>
-                        <td>{{ $row->brand_name }}</td>
+                        <td>{{ $row->category_name }}</td>
                         <td>{{ $row->is_show == 1 ? '是' : '否' }}</td>
                         <td>{{ $row->created_at }}</td>
                         <td>{{ $row->updated_at }}</td>
                         <td>
-                          <button type="button" class="btn btn-block btn-success" onclick="brand_edit({{ $row->id }})">編輯</button>
-                          <button type="button" class="btn btn-block btn-danger" onclick="brand_delete({{ $row->id }})">刪除</button>
+                          <button type="button" class="btn btn-block btn-success" onclick="category_edit({{ $row->id }})">編輯</button>
+                          <button type="button" class="btn btn-block btn-danger" onclick="category_delete({{ $row->id }})">刪除</button>
                         </td>
                       </tr>
                     @endforeach
@@ -186,7 +173,7 @@
     }
   });
 
-  function brand_edit(id) {
+  function category_edit(id) {
     if (!id) {
       Swal.fire({
         icon: 'warning',
@@ -195,12 +182,12 @@
       return false;
     }
     
-    location.href = '/brand_update/' + id;
+    location.href = '/category_update/' + id;
   }
 
-  function brand_delete(id) {
+  function category_delete(id) {
     Swal.fire({
-      title: '確定要刪除此品牌?',
+      title: '確定要刪除此類別?',
       text: "(此動作無法復原)",
       icon: 'warning',
       showCancelButton: true,
@@ -212,7 +199,7 @@
       if (result.isConfirmed) {
         $.ajax({
           type: "POST",
-          url: "/brand_delete",
+          url: "/category_delete",
           dataType: "json",
           data: {
             'id': id,
