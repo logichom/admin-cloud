@@ -69,3 +69,11 @@ Route::post('/brand_create', [AdminController::class, 'brand_create'])->name('br
 Route::post('/brand_delete', [AdminController::class, 'brand_delete']);
 Route::get('/brand_update/{id}', [AdminController::class, 'brand_update_index']);
 Route::put('/brand_update', [AdminController::class, 'brand_update'])->name('brand_update');
+
+Route::get('/goods', [AdminController::class, 'goods_list'])->name('goods');
+Route::any('/goods', [AdminController::class, 'goods_search'])->name('goods_search');
+Route::get('/goods_create', [AdminController::class, 'goods_create_index'])->name('goods_create');
+Route::post('/goods_create', [AdminController::class, 'goods_create'])->name('goods_create');
+Route::post('/goods_delete', [AdminController::class, 'goods_delete']);
+Route::get('/goods_update/{id}', [AdminController::class, 'goods_update_index']);
+Route::put('/goods_update', [AdminController::class, 'goods_update'])->name('goods_update');

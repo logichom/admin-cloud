@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Goods;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -178,6 +180,7 @@ class AdminController extends Controller
         $inputData = $request->all();
         $rules = [
             'brand_name' => 'nullable|string|between:1,255',
+            'category_id' => 'nullable|integer',
         ];
         $validator = Validator::make($inputData, $rules);
         if ($validator->fails()) {
@@ -187,10 +190,14 @@ class AdminController extends Controller
         }
 
         $brandName = $request->brand_name;
+        $categoryId = $request->category_id;
 
         $query = Brand::query();
         if (!empty(trim($brandName))) {
             $query->where('brand_name', 'LIKE', "%{$brandName}%");
+        }
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
         }
         $data = $query->paginate($this->perPage);
         $total = $query->count();
@@ -316,6 +323,209 @@ class AdminController extends Controller
 
         if ($check) {
             return redirect('/brand');
+        }
+        return redirect()->back()->withErrors(['msg' => '修改失敗,請聯繫IT']);
+    }
+
+    public function goods_list()
+    {
+        $data = Goods::paginate($this->perPage);
+        $total = $data->count();
+
+        $categoryArr = [];
+        $dataCategory = Category::select('id', 'category_name')->get();
+        if ($dataCategory) {
+            foreach ($dataCategory as $row) {
+                $categoryArr[$row->id] = $row->category_name;
+            }
+        }
+
+        $brandArr = [];
+        $dataBrand = Brand::select('id', 'brand_name')->get();
+        if ($dataBrand) {
+            foreach ($dataBrand as $row) {
+                $brandArr[$row->id] = $row->brand_name;
+            }
+        }
+
+        return view('goods.goods_list', compact(['data', 'total', 'categoryArr', 'brandArr']));
+    }
+
+    public function goods_search(Request $request)
+    {
+        $inputData = $request->all();
+        $rules = [
+            'goods_name' => 'nullable|string|between:1,255',
+            'category_id' => 'nullable|integer',
+        ];
+        $validator = Validator::make($inputData, $rules);
+        if ($validator->fails()) {
+            $data = [];
+            $total = 0;
+            return view('goods.goods_list', compact(['data', 'total']));
+        }
+
+        $goodsName = $request->goods_name;
+        $categoryId = $request->category_id;
+
+        $query = Goods::query();
+        if (!empty(trim($goodsName))) {
+            $query->where('goods_name', 'LIKE', "%{$goodsName}%");
+        }
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+        $data = $query->paginate($this->perPage);
+        $total = $query->count();
+
+        $categoryArr = [];
+        $dataCategory = Category::select('id', 'category_name')->get();
+        if ($dataCategory) {
+            foreach ($dataCategory as $row) {
+                $categoryArr[$row->id] = $row->category_name;
+            }
+        }
+
+        $brandArr = [];
+        $dataBrand = Brand::select('id', 'brand_name')->get();
+        if ($dataBrand) {
+            foreach ($dataBrand as $row) {
+                $brandArr[$row->id] = $row->brand_name;
+            }
+        }
+
+        return view('goods.goods_list', compact(['data', 'total', 'categoryArr', 'brandArr']));
+    }
+
+    public function goods_create_index()
+    {
+        $dataCategory = Category::select('id', 'category_name')->get();
+        $dataBrand = Brand::select('id', 'brand_name')->get();
+
+        return view('goods.goods_create', compact(['dataCategory', 'dataBrand']));
+    }
+
+    public function goods_create(Request $request)
+    {
+        $inputData = $request->all();
+        $rules = [
+            'category_id' => 'required|integer',
+            'brand_id' => 'required|integer',
+            'goods_name' => 'required|string',
+            'is_show' => 'required|integer',
+            'goods_img' => 'required|image|mimes:jpeg,png,jpg|max:2048', //檔案限制2MB
+        ];
+        $validator = Validator::make($inputData, $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput(); 
+        }
+
+        //排除重複(可用->first()/count()/exists())
+        $check = Goods::orWhere('goods_name', $request->title)
+            ->count();
+        if ($check) {
+            return redirect()->back()->withErrors("商品已存在");
+        }
+
+        $imageName = time() . '.' . $request->goods_img->extension();  
+        $request->goods_img->move(public_path('images'), $imageName);
+
+        $query = new Goods();
+        $query->category_id = $request->category_id;
+        $query->brand_id = $request->brand_id;
+        $query->goods_name = $request->goods_name;
+        $query->goods_img = $imageName;
+        $query->is_show = $request->is_show;
+        $query->created_at = date('Y-m-d H:i:s');
+        $query->updated_at = date('Y-m-d H:i:s');
+        $query->save();
+        $id = $query->id;
+
+        if ($id) {
+            return redirect('/goods');
+        }
+        return redirect()->back()->withErrors(['msg' => '新增失敗,請聯繫IT']);
+    }
+
+    public function goods_delete(Request $request)
+    {
+        $output = [
+            'code' => 400,
+            'msg' => '輸入資訊有誤',
+        ];
+
+        $inputData = $request->all();
+        $rules = [
+            'id' => 'required|integer',
+        ];
+        $validator = Validator::make($inputData, $rules);
+        if ($validator->fails()) {
+            return response()->json($output);
+        }
+
+        $query = Goods::find($request->id);
+        if (!$query) {
+            $output['msg'] = '該筆資料不存在';
+            return response()->json($output);
+        }
+
+        $fileName = public_path('images/') . $query->goods_img;
+        if (!File::exists($fileName)) {
+            $output['msg'] = '圖片不存在' . $fileName;
+            return response()->json($output);
+        }
+        File::delete($fileName);
+
+        $destory = Goods::destroy($request->id);
+        if ($destory) {
+            $output['code'] = 200;
+            $output['msg'] = '刪除成功';
+            return response()->json($output);
+        }
+
+        $output['code'] = 500;
+        $output['msg'] = '刪除失敗';
+        return response()->json($output);
+    }
+
+    public function goods_update_index($id)
+    {
+        $id = (int) $id ?? 0;
+        $data = Goods::find($id);
+        $dataCategory = Category::select('id', 'category_name')->get();
+        $dataBrand = Brand::select('id', 'brand_name')->get();
+
+        return view('goods.goods_edit', compact(['data', 'dataCategory', 'dataBrand']));
+    }
+
+    public function goods_update(Request $request)
+    {
+        $inputData = $request->all();
+        $rules = [
+            'category_id' => 'required|integer',
+            'brand_id' => 'required|integer',
+            'goods_name' => 'required|string',
+            'is_show' => 'required|integer',
+            'id' => 'required|integer',
+        ];
+        $validator = Validator::make($inputData, $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput(); 
+        }
+
+        $query = Goods::find($request->id);
+        if (!$query) {
+            return redirect()->back()->withErrors(['msg' => '該筆資料不存在']);
+        }
+        $query->category_id = $request->category_id;
+        $query->brand_id = $request->brand_id;
+        $query->goods_name = $request->goods_name;
+        $query->is_show = $request->is_show;
+        $query->updated_at = date('Y-m-d H:i:s');
+        $check = $query->save();
+
+        if ($check) {
+            return redirect('/goods');
         }
         return redirect()->back()->withErrors(['msg' => '修改失敗,請聯繫IT']);
     }

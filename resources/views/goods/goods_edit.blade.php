@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-<title>{{ config('app.name', 'Laravel') }} | 品牌管理</title>
+<title>{{ config('app.name', 'Laravel') }} | 商品管理</title>
 @endsection
 
 @section('css')
@@ -21,12 +21,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>新增品牌</h1>
+            <h1>修改商品</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-              <li class="breadcrumb-item active">新增品牌</li>
+              <li class="breadcrumb-item active">修改商品</li>
             </ol>
           </div>
         </div>
@@ -35,8 +35,9 @@
 
     <!-- Main content -->
     <section class="content">
-      <form action="{{ route('brand_create') }}" method="post">
+      <form action="{{ route('goods_update') }}" method="post">
       @csrf
+      @method('PUT')
       <div class="row">
         <div class="col-12">
           <div class="card card-primary">
@@ -55,26 +56,38 @@
                 <select class="form-control" id="category_id" name="category_id">
                   <option value="-1">請選擇</option>
                   @foreach ($dataCategory as $row)
-                  <option value="{{ $row->id }}" @if (old('category_id') == $row->id) selected @endif>{{ $row->category_name }}</option>
+                  <option value="{{ $row->id }}" @if ($data->category_id == $row->id) selected @endif>{{ $row->category_name }}</option>
                   @endforeach
                 </select>
                 @endif
               </div>
               <div class="form-group">
-                <label for="brand_name">品牌名稱</label>
-                <input type="text" id="brand_name" name="brand_name" class="form-control" value="{{ old('brand_name') }}">
+                <label for="brand_id">品牌</label>
+                @if ($dataBrand)
+                <select class="form-control" id="brand_id" name="brand_id">
+                  <option value="-1">請選擇</option>
+                  @foreach ($dataBrand as $row)
+                  <option value="{{ $row->id }}" @if ($data->brand_id == $row->id) selected @endif>{{ $row->brand_name }}</option>
+                  @endforeach
+                </select>
+                @endif
               </div>
               <div class="form-group">
-                <label for="is_show">是否顯示</label>
+                <label for="brand_name">商品名稱</label>
+                <input type="text" id="goods_name" name="goods_name" class="form-control" value="{{ $data->goods_name }}">
+              </div>
+              <div class="form-group">
+              <label for="is_show">是否顯示</label>
                 <select class="form-control" id="is_show" name="is_show">
                   <option value="-1">請選擇</option>
-                  <option value="0" @if (strlen(old('is_show')) && old('is_show') == 0) selected @endif>否</option>
-                  <option value="1" @if (strlen(old('is_show')) && old('is_show') == 1) selected @endif>是</option>
+                  <option value="0" @if ($data['is_show'] == 0) selected @endif>否</option>
+                  <option value="1" @if ($data['is_show'] == 1) selected @endif>是</option>
                 </select>
               </div>
               @if ($errors->any())
                 <h4><font style="color: red">{{ $errors->first() }}</font></h4>
               @endif
+              <input type="hidden" id="id" name="id" value="{{ $data->id }}">
             </div>
             <!-- /.card-body -->
           </div>
@@ -83,8 +96,8 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <a href="{{ route('brand') }}" class="btn btn-secondary">取消</a>
-          <input type="submit" value="新增" class="btn btn-success float-right">
+          <a href="{{ route('goods') }}" class="btn btn-secondary">取消</a>
+          <input type="submit" value="修改" class="btn btn-success float-right">
         </div>
       </div>
       </form>

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-<title>{{ config('app.name', 'Laravel') }} | 品牌管理</title>
+<title>{{ config('app.name', 'Laravel') }} | 商品管理</title>
 @endsection
 
 @section('css')
@@ -23,12 +23,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>品牌管理</h1>
+            <h1>商品管理</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-              <li class="breadcrumb-item active">品牌管理</li>
+              <li class="breadcrumb-item active">商品管理</li>
             </ol>
           </div>
         </div>
@@ -38,7 +38,7 @@
     <!-- Main content -->
     <section class="content">
       <!-- Default box -->
-      <form action="{{ route('brand_search') }}" method="post">
+      <form action="{{ route('goods_search') }}" method="post">
       @csrf
       <div class="card">
         <div class="card-header">
@@ -56,8 +56,8 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="brand_name">品牌名稱</label>
-                <input type="text" class="form-control" id="brand_name" name="brand_name" placeholder="請輸入名稱" value="{{ request()->brand_name }}">
+                <label for="goods_name">商品名稱</label>
+                <input type="text" class="form-control" id="goods_name" name="goods_name" placeholder="請輸入名稱" value="{{ request()->goods_name }}">
               </div>
             </div>
             <div class="col-md-6">
@@ -94,7 +94,7 @@
           </div>
         </div>
         <div class="card-footer">
-          <button type="button" class="btn btn-primary" onclick="window.location='{{ route("brand_create") }}'">新增</button>
+          <button type="button" class="btn btn-primary" onclick="window.location='{{ route("goods_create") }}'">新增</button>
         </div>
       </div>
 
@@ -111,7 +111,9 @@
                   <tr>
                     <th style="width: 10px">流水號</th>
                     <th>類別</th>
-                    <th>品牌名稱</th>
+                    <th>品牌</th>
+                    <th>商品名稱</th>
+                    <th>商品圖片</th>
                     <th>是否顯示</th>
                     <th>建立時間</th>
                     <th>更新時間</th>
@@ -124,19 +126,21 @@
                       <tr>
                         <td>{{ $row->id }}</td>
                         <td>{{ $categoryArr[$row->category_id] ?? $row->category_id }}</td>
-                        <td>{{ $row->brand_name }}</td>
+                        <td>{{ $brandArr[$row->brand_id] ?? $row->brand_id }}</td>
+                        <td>{{ $row->goods_name }}</td>
+                        <td><img src="{{ asset('images/' . $row->goods_img) }}" width="150px"></td>
                         <td>{{ $row->is_show == 1 ? '是' : '否' }}</td>
                         <td>{{ $row->created_at }}</td>
                         <td>{{ $row->updated_at }}</td>
                         <td>
-                          <button type="button" class="btn btn-block btn-success" onclick="brand_edit({{ $row->id }})">編輯</button>
-                          <button type="button" class="btn btn-block btn-danger" onclick="brand_delete({{ $row->id }})">刪除</button>
+                          <button type="button" class="btn btn-block btn-success" onclick="goods_edit({{ $row->id }})">編輯</button>
+                          <button type="button" class="btn btn-block btn-danger" onclick="goods_delete({{ $row->id }})">刪除</button>
                         </td>
                       </tr>
                     @endforeach
                   @else
                     <tr>
-                      <td colspan="6">查無資料</td>
+                      <td colspan="9">查無資料</td>
                     </tr>
                   @endif
                 </tbody>
@@ -186,7 +190,7 @@
     }
   });
 
-  function brand_edit(id) {
+  function goods_edit(id) {
     if (!id) {
       Swal.fire({
         icon: 'warning',
@@ -195,12 +199,12 @@
       return false;
     }
     
-    location.href = '/brand_update/' + id;
+    location.href = '/goods_update/' + id;
   }
 
-  function brand_delete(id) {
+  function goods_delete(id) {
     Swal.fire({
-      title: '確定要刪除此品牌?',
+      title: '確定要刪除此商品?',
       text: "(此動作無法復原)",
       icon: 'warning',
       showCancelButton: true,
@@ -212,7 +216,7 @@
       if (result.isConfirmed) {
         $.ajax({
           type: "POST",
-          url: "/brand_delete",
+          url: "/goods_delete",
           dataType: "json",
           data: {
             'id': id,

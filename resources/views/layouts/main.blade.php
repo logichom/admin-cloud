@@ -242,7 +242,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('goods') }}" class="nav-link @if(strpos(request()->path(), 'goods') !== false) active @endif">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             商品管理
