@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Goods;
 use App\Models\SidebarMenu;
 use App\Models\User;
 use App\Models\UserPermission;
+use common;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -31,7 +35,21 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $month = date('Y-m');
+        
+        //本月註冊人數
+        $registerCnt = User::where('created_at', 'LIKE', "{$month}%")->count();
+
+        //本月新增類別數
+        $categoryCnt = Category::where('created_at', 'LIKE', "{$month}%")->count();
+
+        //本月新增品牌數
+        $brandCnt = Brand::where('created_at', 'LIKE', "{$month}%")->count();
+
+        //本月新增商品數
+        $goodsCnt = Goods::where('created_at', 'LIKE', "{$month}%")->count();
+
+        return view('home', compact(['registerCnt', 'categoryCnt', 'brandCnt', 'goodsCnt']));
     }
 
     public function account_list()

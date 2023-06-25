@@ -56,7 +56,7 @@
           <!-- small box -->
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>0</h3>
+              <h3>{{ $registerCnt }}</h3>
               <p>本月註冊人數</p>
             </div>
             <div class="icon">
@@ -68,23 +68,9 @@
         <!-- ./col -->
         <div class="col-lg-3 col-6">
           <!-- small box -->
-          <div class="small-box bg-info">
-            <div class="inner">
-              <h3>0</h3>
-              <p>本月新增品牌數</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-bag"></i>
-            </div>
-            <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>0</h3>
+              <h3>{{ $categoryCnt }}</h3>
               <p>本月新增類別數</p>
             </div>
             <div class="icon">
@@ -96,9 +82,23 @@
         <!-- ./col -->
         <div class="col-lg-3 col-6">
           <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{{ $brandCnt }}</h3>
+              <p>本月新增品牌數</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>0</h3>
+              <h3>{{ $goodsCnt }}</h3>
               <p>本月新增商品數</p>
             </div>
             <div class="icon">
